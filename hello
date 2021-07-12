@@ -1,13 +1,24 @@
+cmake_minimum_required(VERSION 3.0)
+
+project(SRC)
+message(STATUS "PROJECT_NAME:${PROJECT_NAME}")
+
 
 macro(SUBDIRLIST RESULT CURDIR)
 file(GLOB SUBFILES RELATIVE ${CURDIR} ${CURDIR}/*)
 message(STATUS "SUBFILES:${SUBFILES}")
 set(DIRLIST "")
-foreach(SUB ${SUBFILES})
-    if(IS_DIRECTORY ${CURDIR}/${SUB})
-        list(APPEND DIRLIST ${SUB})
+foreach(FILE ${SUBFILES})
+    if(IS_DIRECTORY ${CURDIR}/${FILE})
+        list(APPEND DIRLIST ${FILE})
     endif()
-endforeach()
+endforeach(FILE)
+message(STATUS "DIRLIST:${DIRLIST}")
+foreach(DIR ${DIRLIST})
+    if("DIR" STREQUAL "out")
+        list(REMOVE_ITEM  DIRLIST "out")
+    endif()
+endforeach(DIR)
 set(${RESULT} ${DIRLIST})
 endmacro()
 
@@ -29,6 +40,19 @@ if("${CURRENT_DIR_SRCS}" STREQUAL "")
         add_subdirectory(${SUBDIR})
     endforeach()
 endif()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
