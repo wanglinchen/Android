@@ -1,15 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
-
-project(SRC)
-message(STATUS "PROJECT_NAME:${PROJECT_NAME}")
 
 macro(SUBDIRLIST RESULT CURDIR)
 file(GLOB SUBFILES RELATIVE ${CURDIR} ${CURDIR}/*)
 message(STATUS "SUBFILES:${SUBFILES}")
 set(DIRLIST "")
 foreach(SUB ${SUBFILES})
-    if(IS_DIRECTORY ${CURDIR}/${CURDIR})
-        list(APPEND DIRLIST ${CURDIR})
+    if(IS_DIRECTORY ${CURDIR}/${SUB})
+        list(APPEND DIRLIST ${SUB})
     endif()
 endforeach()
 set(${RESULT} ${DIRLIST})
