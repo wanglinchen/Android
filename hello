@@ -1,0 +1,47 @@
+cmake_minimum_required(VERSION 3.0)
+
+project(SRC)
+message(STATUS "PROJECT_NAME:${PROJECT_NAME}")
+
+macro(SUBDIRLIST RESULT CURDIR)
+file(GLOB SUBFILES RELATIVE ${CURDIR} ${CURDIR}/*)
+message(STATUS "SUBFILES:${SUBFILES}")
+set(DIRLIST "")
+foreach(SUB ${SUBFILES})
+    if(IS_DIRECTORY ${CURDIR}/${CURDIR})
+        list(APPEND DIRLIST ${CURDIR})
+    endif()
+endforeach()
+set(${RESULT} ${DIRLIST})
+endmacro()
+
+SUBDIRLIST(CURRENT_SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
+message(STATUS "CURRENT_SUBDIRS:${CURRENT_SUBDIRS}")
+
+file(GLOB CURRENT_DIR_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
+)
+message(STATUS "CURRENT_DIR_SRCS:${CURRENT_DIR_SRCS}")
+
+if("${CURRENT_DIR_SRCS}" STREQUAL "")
+    message(STATUS "current folder is empety")
+    foreach(SUBDIR ${CURRENT_SUBDIRS})
+        message(STATUS "SUBDIR:${SUBDIR}")
+        add_subdirectory(${SUBDIR})
+    endforeach()
+endif()
+
+
+
+
+
+
+
+
+
+
+
+
