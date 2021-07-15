@@ -1,29 +1,20 @@
-cmake_minimum_required(VERSION 3.0)
-
-project(SRC)
-message(STATUS "PROJECT_NAME:${PROJECT_NAME}")
-
+message(STATUS "enter ${CMAKE_CURRENT_SOURCE_DIR}")
 
 macro(SUBDIRLIST RESULT CURDIR)
-file(GLOB SUBFILES RELATIVE ${CURDIR} ${CURDIR}/*)
-message(STATUS "SUBFILES:${SUBFILES}")
+file(GLOB CURRENT_DIR_FILES RELATIVE ${CURDIR} ${CURDIR}/*)
 set(DIRLIST "")
-foreach(FILE ${SUBFILES})
+foreach(FILE ${CURRENT_DIR_FILES})
     if(IS_DIRECTORY ${CURDIR}/${FILE})
-        list(APPEND DIRLIST ${FILE})
+        if(EXISTS ${CURDIR}/${FILE}/CMakeLists.txt)
+            list(APPEND DIRLIST ${FILE})
+        endif()
     endif()
 endforeach(FILE)
-message(STATUS "DIRLIST:${DIRLIST}")
-foreach(DIR ${DIRLIST})
-    if("DIR" STREQUAL "out")
-        list(REMOVE_ITEM  DIRLIST "out")
-    endif()
-endforeach(DIR)
 set(${RESULT} ${DIRLIST})
 endmacro()
 
-SUBDIRLIST(CURRENT_SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
-message(STATUS "CURRENT_SUBDIRS:${CURRENT_SUBDIRS}")
+SUBDIRLIST(CURRENT_SUB_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
+message(STATUS "CURRENT_SUB_DIRS:${CURRENT_SUB_DIRS}")
 
 file(GLOB CURRENT_DIR_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
     ${CMAKE_CURRENT_SOURCE_DIR}/*.c
@@ -33,35 +24,10 @@ file(GLOB CURRENT_DIR_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 message(STATUS "CURRENT_DIR_SRCS:${CURRENT_DIR_SRCS}")
 
-if("${CURRENT_DIR_SRCS}" STREQUAL "")
-    message(STATUS "current folder is empety")
-    foreach(SUBDIR ${CURRENT_SUBDIRS})
-        message(STATUS "SUBDIR:${SUBDIR}")
-        add_subdirectory(${SUBDIR})
-    endforeach()
-endif()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+foreach(SUB_DIR ${CURRENT_SUB_DIRS})
+    message(STATUS "add SUB_DIR:${SUB_DIR}")
+    add_subdirectory(${SUB_DIR})
+endforeach()
 
 
